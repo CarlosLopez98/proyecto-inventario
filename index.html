@@ -22,10 +22,10 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item active">
-                            <a class="nav-link " href="#">Registrarse<span class="sr-only">(current)</span></a>
+                            <a class="nav-link" type="button" data-toggle="modal" data-target="#modalRegistro">Registrarse<span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item active">
-                            <a class="nav-link" href="#">Iniciar Sesión</a>
+                            <a class="nav-link" type="button" data-toggle="modal" data-target="#modalIngreso">Iniciar Sesión</a>
                         </li>
                 </div>
             </nav>
@@ -75,6 +75,112 @@
             <p>&copy;2020 Derechos reservados</p>
         </footer>
 
+    </div>
+    
+    <!-- Modal Registro -->
+    <div class="modal fade" id="modalRegistro" tabindex="-1" role="dialog" aria-labelledby="modalRegistroLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalRegistroLabel">Registro</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="">
+                        <div class="form-group">
+                            <label for="" class="">Nombre</label>
+                            <input type="text" class="form-control" placeholder="Nombre">
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="">Apellido</label>
+                            <input type="text" class="form-control" placeholder="Apellido">
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="">Correo</label>
+                            <input type="mail" class="form-control" placeholder="Correo electrónico">
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="">Contraseña</label>
+                            <input type="password" class="form-control" placeholder="Contraseña">
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="">Verificar contraseña</label>
+                            <input type="password" class="form-control" placeholder="Verificar contraseña">
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary">Registrarse</button>
+                            <p>¿Ya tienes una cuenta? <a href="" data-dismiss="modal" data-toggle="modal" data-target="#modalIngreso">Inicia sesión</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Ingreso -->
+    <div class="modal fade" id="modalIngreso" tabindex="-1" role="dialog" aria-labelledby="modalIngresoLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalIngresoLabel">Inicio sesión</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="">
+                        <div class="form-group">
+                            <label for="" class="">Correo</label>
+                            <input type="mail" class="form-control" placeholder="Correo electrónico">
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="">Contraseña</label>
+                            <input type="password" class="form-control" placeholder="Contraseña">
+                        </div>
+    
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary">Iniciar sesión</button>
+                            <p>¿Olvidaste tu contraseña? <a href="" data-dismiss="modal" data-toggle="modal" data-target="#modalRecuperar">Recuperar contraseña</a></p>
+                            <p>¿No tienes cuenta? <a href="" data-dismiss="modal" data-toggle="modal" data-target="#modalRegistro">Registrarse</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Recuperacion contraseña -->
+    <div class="modal fade" id="modalRecuperar" tabindex="-1" role="dialog" aria-labelledby="modalRecuperarLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalRecuperarLabel">Recuperación de contraseña</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="">
+                        <div class="form-group">
+                            <label for="" class="">Ingresa tu correo</label>
+                            <input type="mail" class="form-control" placeholder="Correo electrónico">
+                        </div>
+
+                        <p>Se te enviará un correo con indicaciones para recuperar tu contraseña</p>
+    
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary">Enviar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
