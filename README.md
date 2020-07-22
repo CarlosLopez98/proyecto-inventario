@@ -1,1 +1,2 @@
-# proyecto-inventario
+# proyecto inventario
+Factores humanos

@@ -1,0 +1,72 @@
+:root {
+    --main-orange: #f77311;
+    --main-orange-hover: #007bffaf;
+    --main-blue: #007cff;
+    --bg-white: #e6e6e6;
+}
+
+body {
+    background-color: var(--bg-white);
+    font-family: sans-serif;
+}
+
+header {
+    height: 80px;
+}
+
+.bg-orange {
+    background-color: var(--main-orange);
+}
+
+.navbar {
+    width: 80%;
+    height: 80px;
+    margin: 0 auto;
+}
+
+.navbar-brand {
+    font-size: 30px;
+    text-shadow: 5px 5px rgba(0, 0, 0, 0.2);
+}
+
+.nav-item {
+    font-size: 18px;
+    border-radius: 15px;
+}
+
+.nav-item:hover {
+    background-color: var(--main-orange-hover);
+}
+
+.carousel {
+    width: 50%;
+    margin: 20px auto;
+    border: 4px solid #c4c4c4;
+    border-radius: 25px;
+    box-shadow: -5px -5px 2px #c4c4c4;
+}
+
+.carousel-item img {
+    border-radius: 25px;
+}
+
+.carousel-indicators li {
+    background-color: var(--main-blue);
+    width: 30px;
+    height: 30px;
+    border: 1px solid #000;
+    border-radius: 50%;
+}
+
+.carousel-indicators .active {
+    background-color: var(--main-orange);
+}
+
+footer {
+    width:100%;
+    height: 60px;
+    background-color: var(--main-orange);
+    color: white;
+    padding-top: 17px;
+    text-align: center;
+}
