@@ -1,4 +1,4 @@
-#from .models import User, Task
+from .models import User
 from .views import page
 from flask import Flask
 from flask_mail import Mail
