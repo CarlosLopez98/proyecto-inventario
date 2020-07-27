@@ -1,5 +1,5 @@
 from app import create_app
-from app import db, User#, Task #Importar Modelos de app
+from app import db #User, Task #Importar Modelos de app
 from flask_script import Manager, Shell
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate, MigrateCommand
