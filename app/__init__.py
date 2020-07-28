@@ -1,8 +1,6 @@
-from .models import User
-from .views import page
 from flask import Flask
 from flask_mail import Mail
-#from flask_login import LoginManager
+from flask_login import LoginManager
 from flask_bootstrap import Bootstrap
 from flask_wtf.csrf import CSRFProtect
 from flask_sqlalchemy import SQLAlchemy
@@ -14,7 +12,11 @@ mail = Mail()
 db = SQLAlchemy()
 bootstrap = Bootstrap()
 csrf = CSRFProtect()
-#login_manager = LoginManager()
+login_manager = LoginManager()
+
+
+from .models import Usuario, Categoria, Estado, Producto, Movimiento, Pedido, Proveedor
+from .views import page
 
 
 def create_app(config):
@@ -27,7 +29,7 @@ def create_app(config):
 
     app.app_context().push()
 
-    #login_manager.init_app(app)
+    login_manager.init_app(app)
     #login_manager.login_view = '.login'
     #login_manager.login_message = 'Es necesario iniciar sesión.'
 

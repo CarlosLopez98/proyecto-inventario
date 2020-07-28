@@ -1,3 +1,5 @@
+{% from 'helpers/_forms.html' import render_field %}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -24,7 +26,12 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ml-auto">
-
+                        {% if current_user.is_authenticated %}
+                        <li class="nav-item active">
+                            <a class="nav-link" type="button" href="{{ url_for('page.logout') }}">Cerrar sesión<span
+                                    class="sr-only">(current)</span></a>
+                        </li>
+                        {% else %}
                         <li class="nav-item active">
                             <a class="nav-link" type="button" data-toggle="modal"
                                 data-target="#modalRegistro">Registrarse<span class="sr-only">(current)</span></a>
@@ -33,11 +40,21 @@
                             <a class="nav-link" type="button" data-toggle="modal" data-target="#modalIngreso">Iniciar
                                 Sesión</a>
                         </li>
+                        {% endif %}
                 </div>
             </nav>
         </header>
 
         <main>
+        {% with messages = get_flashed_messages(with_categories=true)  %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
         {% block main_content %}
         {% endblock %}
         </main>
@@ -47,7 +64,8 @@
         </footer>
         
     </div>
-        
+    
+    {% if not current_user.is_authenticated %}
     <!-- Modal Registro -->
     <div class="modal fade" id="modalRegistro" tabindex="-1" role="dialog" aria-labelledby="modalRegistroLabel"
         aria-hidden="true">
@@ -60,34 +78,35 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="">
+                    {% if register_form %}
+                    <form method="POST">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+
+                        {{ render_field(register_form.honeypot) }}
+
                         <div class="form-group">
-                            <label for="" class="">Nombre</label>
-                            <input type="text" class="form-control" placeholder="Nombre">
+                            {{ render_field(register_form.nombre, class='form-control', placeholder='Nombre') }}
                         </div>
                         <div class="form-group">
-                            <label for="" class="">Apellido</label>
-                            <input type="text" class="form-control" placeholder="Apellido">
+                            {{ render_field(register_form.apellido, class='form-control', placeholder='Apellido') }}
                         </div>
                         <div class="form-group">
-                            <label for="" class="">Correo</label>
-                            <input type="mail" class="form-control" placeholder="Correo electrónico">
+                            {{ render_field(register_form.correo, class='form-control', placeholder='Correo Electrónico') }}
                         </div>
                         <div class="form-group">
-                            <label for="" class="">Contraseña</label>
-                            <input type="password" class="form-control" placeholder="Contraseña">
+                            {{ render_field(register_form.password, class='form-control', placeholder='Contraseña') }}
                         </div>
                         <div class="form-group">
-                            <label for="" class="">Verificar contraseña</label>
-                            <input type="password" class="form-control" placeholder="Verificar contraseña">
+                            {{ render_field(register_form.confirm_password, class='form-control', placeholder='Confirmar contraseña') }}
                         </div>
     
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-primary">Registrarse</button>
+                            <input type="submit" class="btn btn-primary" value="Registrarse">
                             <p>¿Ya tienes una cuenta? <a href="" data-dismiss="modal" data-toggle="modal"
                                     data-target="#modalIngreso">Inicia sesión</a></p>
                         </div>
                     </form>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -105,24 +124,26 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="">
+                    {% if login_form %}
+                    <form method="POST">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+
                         <div class="form-group">
-                            <label for="" class="">Correo</label>
-                            <input type="mail" class="form-control" placeholder="Correo electrónico">
+                            {{ render_field(login_form.correo, class='form-control', placeholder='Correo Electrónico') }}
                         </div>
                         <div class="form-group">
-                            <label for="" class="">Contraseña</label>
-                            <input type="password" class="form-control" placeholder="Contraseña">
+                            {{ render_field(login_form.password, class='form-control', placeholder='Contraseña') }}
                         </div>
     
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-primary">Iniciar sesión</button>
+                            <input type="submit" class="btn btn-primary" value="Iniciar sesión">
                             <p>¿Olvidaste tu contraseña? <a href="" data-dismiss="modal" data-toggle="modal"
                                     data-target="#modalRecuperar">Recuperar contraseña</a></p>
                             <p>¿No tienes cuenta? <a href="" data-dismiss="modal" data-toggle="modal"
                                     data-target="#modalRegistro">Registrarse</a></p>
                         </div>
                     </form>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -140,22 +161,26 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="">
+                    {% if recovery_form %}
+                    <form method="POST">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+
                         <div class="form-group">
-                            <label for="" class="">Ingresa tu correo</label>
-                            <input type="mail" class="form-control" placeholder="Correo electrónico">
+                            {{ render_field(recovery_form.correo, class='form-control', placeholder='Correo Electrónico') }}
                         </div>
     
                         <p>Se te enviará un correo con indicaciones para recuperar tu contraseña</p>
     
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-primary">Enviar</button>
+                            <input type="submit" class="btn btn-primary" value="Enviar">
                         </div>
                     </form>
+                    {% endif %}
                 </div>
             </div>
         </div>
     </div>
+    {% endif %}
     
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"

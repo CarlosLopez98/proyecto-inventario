@@ -87,3 +87,61 @@ footer {
     padding-top: 17px;
     text-align: center;
 }
+
+
+/*-----estilos del la pagina principal-------*/
+.menu{
+	border: 1px solid #4ca9ff;
+    margin: 5%;
+    margin-top: 20px;
+}
+
+.cabecera-perfil, .contenedor-interno button{
+	color: white;
+	background-color: #4ca9ff;
+}
+
+.cabecera-perfil{
+	flex-basis: max-content;
+}
+
+.cabecera-perfil h1{
+	padding: 0px 5vw;
+}
+
+.contenedor-general{
+	padding: 2%;
+	
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	flex-wrap: no-wrap;
+}
+
+.contenedor-interno{
+	text-align: center;
+	flex-basis: 50%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+}
+
+.contenedor-interno button{
+	flex-basis: max-content;
+	margin: 1%;
+}
+
+.contenedor-interno img{
+	flex-basis: auto 100%;
+	margin: auto;
+	width: 95%;
+	object-fit: cover;
+	height: 30vw;
+}
+
+@media screen and (max-width: 815px){
+	.contenedor-general{
+		flex-direction: column;
+	}
+	
+}
