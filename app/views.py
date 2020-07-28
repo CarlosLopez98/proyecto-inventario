@@ -14,3 +14,9 @@ def page_not_found(error):
 @page.route('/')
 def index():
     return render_template('index.html', title='Inicio')
+
+@page.route('/usuario/')
+def añadirproducto():
+    return render_template('usuario/añadirproducto.html', title='Añadir Producto')
+
+

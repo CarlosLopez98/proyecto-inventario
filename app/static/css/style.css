@@ -79,6 +79,20 @@ header {
     background-color: var(--main-orange);
 }
 
+.cuadrado {
+     width: 100px; 
+     height: 100px; 
+     background: #428bca;
+}
+*{color: red}
+.rectangulo {
+     width: 150px; 
+     height: 100px; 
+     border: 3px solid #555;
+     background-color: #428bca;
+}
+
+
 footer {
     width:100%;
     height: 60px;

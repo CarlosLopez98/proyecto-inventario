@@ -8,14 +8,18 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
         integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {% block meta_content %}
+    {% endblock %}
+
 </head>
+
 
 <body>
 
     <div class="container-fluid">
         <header class="bg-orange">
             <nav class="navbar navbar-expand-lg navbar-dark">
-                <a class="navbar-brand" href="{{ url_for('page.index') }}">Electrodomésticos</a>
+                <a class="navbar-brand" href="{{ url_for('page.añadirproducto') }}">Electrodomésticos</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
                     data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                     aria-label="Toggle navigation">
