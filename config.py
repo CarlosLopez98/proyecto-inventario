@@ -1,3 +1,5 @@
+from decouple import config
+
 class Config:
     SECRET_KEY = "Estaesunallavesecreta"
 

@@ -1,0 +1,26 @@
+{% extends 'layout.html' %}
+
+{% block main_content %}
+<main class="menu">
+    <header class="cabecera-perfil">
+        <h1>Gestión Productos</h1>
+    </header>
+    <div class="contenedor-general">
+        <div class="contenedor-interno">
+            <h2>Consultar</h2>
+            <img src="{{ url_for('static', filename='img/consultar_productos.png') }}"
+                alt="Consultar producto">
+            <button><a href="{{ url_for('page.consultar_producto') }}">Consutar</a></button>
+        </div>
+
+        <div class="contenedor-interno">
+            <h2>Añadir</h2>
+            <img src="{{ url_for('static', filename='img/añadir_producto.png') }}"
+                alt="Añadir producto">
+            <button><a href="{{ url_for('page.añadir_producto') }}">Añadir</a></button>
+        </div>
+    </div>
+</main>
+
+
+{% endblock %}
