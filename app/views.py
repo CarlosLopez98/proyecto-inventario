@@ -72,4 +72,27 @@ def index():
 @page.route('/perfil')
 @login_required
 def perfil():
-    return render_template('usuario/perfil.html')
+    return render_template('usuario/perfil.html', title='Perfil')
+
+
+@page.route('/producto/menu')
+@login_required
+def menu_producto():
+    return render_template('producto/menuproducto.html', title='Menú Producto')
+
+@page.route('/producto/nuevo')
+@login_required
+def añadir_producto():
+    return render_template('producto/añadirproducto.html', title='Añadir producto')
+
+
+@page.route('/producto/consultar')
+@login_required
+def consultar_producto():
+    return render_template('producto/consultarproducto.html', title='Consultar producto')
+
+
+@page.route('/proveedor/consultar')
+@login_required
+def consultar_proveedor():
+    return render_template('proveedor/consultarproveedor.html', title='Consultar proveedor')
