@@ -17,6 +17,6 @@ def index():
 
 @page.route('/usuario/')
 def añadirproducto():
-    return render_template('usuario/consultarproducto.html', title='Añadir Producto')
+    return render_template('usuario/consultarproveedor.html', title='Añadir Producto')
 
 

@@ -195,6 +195,13 @@ div .formularioderecho {
     margin: 1em 1cm;
 }
 
+
+div .formulariocentral {
+    width: 18%;
+    height: 50%;
+    margin: 1em 13cm;
+}
+
 .contenedor-botonañadir input{
     width: 3cm;
     height: 0.9cm;
@@ -209,19 +216,28 @@ div .formularioderecho {
 
 #content { 
   overflow:hidden; 
-  width: 1200px; 
-
+  width: 1180px;
+  margin-left:  1cm;
+  margin-right: 1cm;
 } 
 
-#left, #right { 
+#left, #right{ 
   width: 40%; 
   margin:3px; 
   padding: 1em; 
 
 } 
 
+#center{
+
+    width: 20%; 
+    margin:3px; 
+    padding: 1em; 
+}
+
 #left  { float:left;  }
 #right { float:right; } 
+#center { float:left; }
 
 
 
