@@ -1,0 +1,66 @@
+{% extends 'layout.html' %}
+
+
+    {% block meta_content %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style2.css') }}">
+    {% endblock %}
+
+{% block main_content %}
+<main class="menu">
+    <header class="cabecera-perfil">
+        <center><h1>Consultar Producto</h1></center>
+    </header>
+
+    <form action="../../form-result.php" method="post" target="_blank">
+
+    <div id="content">
+
+		  	<div id="left">
+
+		  		<div class="formularioizquierdo">
+		    		
+						<label for="id">ID</label>
+				    	<input type="text" id="id" name="label_id">
+
+				    	<label for="nombreproducto">Nombre:</label>
+				    	<input type="text" id="nombreproducto" name="nombre_producto">
+
+				    	<label for="estado">Estado</label>
+				    	<select name="estado_producto">
+						  <option value="value1" selected>Activo</option> 
+						  <option value="value2">Inactivo</option>
+						</select>
+				</div>
+			</div>
+
+		 	<div id="right">
+		  		<div class="formularioderecho">
+
+		  				<label for="proveedor">Proveedor</label>
+				    	<select name="nombre_proveedor">
+						  <option value="value1" selected>Proveedor 1</option> 
+						  <option value="value2">Proveedor 2</option>
+						  <option value="value3">Proveedor 3</option>
+						</select>
+
+						<label for="cantidad">Cantidad</label> 
+						<input type="number" name="cantidad_producto">
+
+						</select>
+
+						<label for="iva">IVA</label>
+						<input type="checkbox" name="iva" value="IVA" >
+
+				</div>
+			</div>
+
+		
+	</div>
+				<div class="contenedor-botonañadir">
+					<center><p><input type="submit" value="Consultar"></p></center>
+				</div>
+	</form>
+</main>
+
+
+{% endblock %}
