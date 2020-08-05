@@ -1,0 +1,38 @@
+{% from 'helpers/_forms.html' import render_field %}
+{% extends 'layout.html' %}
+
+{% block main_content %}
+
+<div class="card">
+    <div class="card-header">
+        Iniciar sesión
+    </div>
+    <div class="card-body">
+        <form method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+
+            <div class="form-group">
+                {{ render_field(login_form.correo, class='form-control', placeholder='Correo Electrónico') }}
+            </div>
+
+            <div class="form-group">
+                {{ render_field(login_form.password, class='form-control', placeholder='Contraseña') }}
+            </div>
+
+            <div class="form-group text-center">
+                <input type="submit" value="Iniciar sesión" class="btn btn-color">
+            </div>
+        </form>
+
+        <div class="card-info text-center">
+            <p>
+                ¿Olvidaste tu contraseña? <a href="{{ url_for('page.recovery') }}">Recuperar contraseña</a>
+            </p>
+            <p>
+                ¿No tienes cuenta? <a href="{{ url_for('page.signup') }}">Registrarse</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -13,6 +13,7 @@ class Usuario(db.Model, UserMixin):
     apellido = db.Column(db.String(50), nullable=False)
     correo = db.Column(db.String(100), unique=True, nullable=False)
     contrasena = db.Column(db.String(94), nullable=False)
+    rol = db.Column(db.String(5), default='user')
     created_at = db.Column(db.DateTime(), default=datetime.datetime.now())
     movimientos = db.relationship('Movimiento', lazy='dynamic')
 
@@ -51,15 +52,46 @@ class Usuario(db.Model, UserMixin):
         return usuario
 
     @ classmethod
-    def update_element(cls, id, nombre, apellido, correo, password):
+    def update_element(cls, id, nombre=None, apellido=None, correo=None, password=None, rol=None):
         usuario = Usuario.get_by_id(id)
 
         if usuario is None:
             return False
 
-        usuario.nombre = nombre
-        usuario.apellido = apellido
-        usuario.correo = correo
+        if not nombre is None : usuario.nombre = nombre
+        if not apellido is None : usuario.apellido = apellido
+        if not correo is None : usuario.correo = correo
+        if not rol is None : usuario.rol = rol
+        if not password is None : usuario.password = password
+
+        db.session.add(usuario)
+        db.session.commit()
+
+        return usuario
+
+    @classmethod
+    def delete_element(cls, id):
+        usuario = Usuario.get_by_id(id)
+
+        if usuario is None:
+            return False
+
+        db.session.delete(usuario)
+        db.session.commit()
+
+        return True
+
+    @classmethod
+    def update_rol(cls, id):
+        usuario = Usuario.get_by_id(id)
+
+        if usuario is None:
+            return False
+
+        if usuario.rol == 'admin':
+            usuario.rol = 'user'
+        elif usuario.rol == 'user':
+            usuario.rol = 'admin'
 
         db.session.add(usuario)
         db.session.commit()
@@ -91,6 +123,10 @@ class Usuario(db.Model, UserMixin):
     @classmethod
     def get_by_email(cls, correo):
         return Usuario.query.filter_by(correo=correo).first()
+
+    @classmethod
+    def get_all(cls):
+        return Usuario.query.all()
 
 
 class Categoria(db.Model):
@@ -156,7 +192,7 @@ class Producto(db.Model):
     nombre = db.Column(db.String(50), nullable=False)
     descripcion = db.Column(db.Text())
     precio = db.Column(db.Float, nullable=False)
-    cantidad = db.Column(db.Integer, nullable=False)
+    cantidad = db.Column(db.Integer, default=0)
     iva = db.Column(db.Boolean, nullable=False)
     created_at = db.Column(db.DateTime(), default=datetime.datetime.now())
     categoria_id = db.Column(db.Integer, db.ForeignKey('categorias.id'))

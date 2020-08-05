@@ -1,0 +1,64 @@
+{% extends 'layout.html' %}
+
+{% block main_content %}
+
+<div class="container-box">
+    <h2 class="text-center">Usuarios</h2>
+    <div class="divisor-line orange"></div>
+
+    <!-- Formulario para buscar -->
+    <form method="POST" hidden>
+        <div class="input-group mb-3">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+            <input type="search" class="form-control" name="buscar" placeholder="Buscar..." aria-label="Buscar..."
+                aria-describedby="button-addon2">
+            <div class="input-group-append">
+                <input class="btn btn-outline-primary" type="submit" id="button-addon2" value="Buscar">
+            </div>
+        </div>
+    </form>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead class="thead-color">
+                <tr>
+                    <th scope="col">id</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Apellido</th>
+                    <th scope="col">Correo</th>
+                    <th scope="col">Rol</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for usuario in usuarios %}
+                <tr>
+                    <th scope="row">{{ usuario.id }}</th>
+                    <td>{{ usuario.nombre }}</td>
+                    <td>{{ usuario.apellido}}</td>
+                    <td>{{ usuario.correo}}</td>
+                    <td>{{ usuario.rol }}</td>
+                    <td>
+                    {% if usuario.rol == 'admin' %}
+                        <a type="button" data-toggle="modal" data-target="#modalUser" onclick="set_boton('btn-send-{{ usuario.id}}')" data-placement="top" title="Quitar admin">
+                            <span class="icon-user-o "></span>
+                        </a>
+                    {% else %}
+                        <a type="button" data-toggle="modal" data-target="#modalAdmin" onclick="set_boton('btn-send-{{ usuario.id}}')" data-placement="top" title="Volver admin">
+                            <span class="icon-star text-warning"></span>
+                        </a>
+                    {% endif %}
+                        <a href="{{ url_for('page.change_rol', user_id=usuario.id) }}" id="btn-send-{{ usuario.id }}" hidden></a>
+                        <a type="button" data-toggle="modal" data-target="#modalDelete" onclick="set_boton('btn-delete-{{ usuario.id}}')" data-placement="top" title="Eliminar usuario">
+                            <span class="icon-trash-empty text-danger"></span>
+                        </a>
+                        <a href="{{ url_for('page.delete_user', user_id=usuario.id) }}" id="btn-delete-{{ usuario.id }}" hidden></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

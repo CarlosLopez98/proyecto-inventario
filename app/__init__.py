@@ -32,6 +32,7 @@ def create_app(config):
     login_manager.init_app(app)
     login_manager.login_view = 'page.index'
     login_manager.login_message = 'Es necesario iniciar sesión.'
+    login_manager.login_message_category = 'danger'
 
     mail.init_app(app)
 

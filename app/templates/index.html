@@ -16,7 +16,7 @@
             <img class="d-block w-100" src="{{ url_for('static', filename='img/electro2.jpg') }}" alt="Second slide">
         </div>
         <div class="carousel-item">
-            <img class="d-block w-100" src="{{ url_for('static', filename='img/electro4.png') }}" alt="Forth slide">
+            <img class="d-block w-100" src="{{ url_for('static', filename='img/electro3.jpeg') }}" alt="Forth slide">
         </div>
         <div class="carousel-item">
             <img class="d-block w-100" src="{{ url_for('static', filename='img/electro5.jpg') }}" alt="Fifth slide">
@@ -32,10 +32,57 @@
     </a>
 </div>
 
-<div class="card" style="width: 60%; margin: 10px auto;">
-    <div class="card-body">
-        <h5 class="card-title">información</h5>
-        <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid sint dolorum non quibusdam iure animi, molestias quisquam asperiores magnam dolore illum deserunt, rerum aperiam ullam hic itaque atque, cumque eos!</p>
+<div class="divisor-line"></div>
+<div class="divisor-line orange"></div>
+
+
+<div class="informacion">
+    <h3 class="text-center">Información</h3>
+    <div class="card-deck">
+        <div class="card">
+            <img src="{{ url_for('static', filename='img/inventario.jpg') }}" class="card-img-top" alt="inventario">
+            <div class="card-body">
+                <h5 class="card-title">Manejo de productos</h5>
+                <p class="card-text">En este aplicativo web podrás insertar productos y tener completo control todo lo que sucede con el movimiento del producto.</p>
+                <p class="card-text"><small class="text-muted">Inventarios</small></p>
+            </div>
+        </div>
+        <div class="card">
+            <img src="{{ url_for('static', filename='img/proveedor.jpg') }}" class="card-img-top" alt="Proveedores">
+            <div class="card-body">
+                <h5 class="card-title">Manejo de proveedores</h5>
+                <p class="card-text">Control sobre los proveedores, registro de los pedidos y demás movimientos que sucedan con el proveedor.</p>
+                <p class="card-text"><small class="text-muted">Inventarios</small></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-deck">
+        <div class="card">
+            <img src="{{ url_for('static', filename='img/usuarios.jpg') }}" class="card-img-top" alt="Usuarios">
+            <div class="card-body">
+                <h5 class="card-title">Control de usuarios</h5>
+                <p class="card-text">Manejo de los usuarios con diferentes tipos de permisos, accesos a la plataforma y modificaciones dependiendo del rol.</p>
+                <p class="card-text"><small class="text-muted">Inventarios</small></p>
+            </div>
+        </div>
+        <div class="card">
+            <img src="{{ url_for('static', filename='img/facil-uso.png') }}" class="card-img-top" alt="Uso">
+            <div class="card-body">
+                <h5 class="card-title">Facilidad de uso</h5>
+                <p class="card-text">Buena navegación por la plataforma, lo que facilita el uso y el entendimiento de la plataforma.</p>
+                <p class="card-text"><small class="text-muted">Inventarios</small></p>
+            </div>
+        </div>
     </div>
 </div>
+
+<div class="about" id="about">
+    <div class="about-content">
+        <h3 class="text-center">Acerca de</h3>
+
+
+    </div>
+</div>
+
 {% endblock %}

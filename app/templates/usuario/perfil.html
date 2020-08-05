@@ -1,26 +1,77 @@
+{% from 'helpers/_forms.html' import render_field %}
 {% extends 'layout.html' %}
 
 {% block main_content %}
-<main class="menu">
-    <header class="cabecera-perfil">
-        <h1>Perfil</h1>
-    </header>
-    <div class="contenedor-general">
-        <div class="contenedor-interno">
-            <h2>Gestionar productos</h2>
-            <img src="https://upload.wikimedia.org/wikipedia/commons/8/8b/Familia_de_electrodom%C3%A9sticos_EVVO.jpg"
-                alt="imagen electrodomesticos">
-            <button><a href="{{ url_for('page.menu_producto') }}">Ver más</a></button>
+<div class="container-box">
+    <h2 class="text-center">Perfil</h2>
+    <div class="divisor-line orange"></div>
+    <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"
+                aria-controls="nav-home" aria-selected="true">General</a>
+            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab"
+                aria-controls="nav-profile" aria-selected="false">Actualizar</a>
         </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-general-tab">
+            <div class="nav-content">
+                <h3 class="text-center">Información del perfil</h3>
+                <div class="nav-info">
+                    <div class="info-item">
+                        <p class="label">Nombre</p>
+                        <p class="data">{{ current_user.nombre }}</p>
+                    </div>
 
-        <div class="contenedor-interno">
-            <h2>Gestionar proveedores</h2>
-            <img src="https://c.pxhere.com/photos/8a/e2/warehouse_storage_stock-917277.jpg!d"
-                alt="imagen electrodomesticos">
-            <button><a href="{{ url_for('page.menu_producto') }}">Ver más</a></button>
+                    <div class="info-item">
+                        <p class="label">Apellido</p>
+                        <p class="data">{{ current_user.apellido }}</p>
+                    </div>
+
+                    <div class="info-item">
+                        <p class="label">Correo</p>
+                        <p class="data">{{ current_user.correo }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-config-tab">
+            <div class="nav-content">
+                <h3 class="text-center">Actualizar información</h3>
+                <form method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                
+                    {{ render_field(update_form.honeypot) }}
+                
+                    <div class="form-group">
+                        {{ render_field(update_form.nombre, class='form-control', placeholder=current_user.nombre) }}
+                    </div>
+                    <div class="form-group">
+                        {{ render_field(update_form.apellido, class='form-control', placeholder=current_user.apellido) }}
+                    </div>
+                    <div class="form-group">
+                        {{ render_field(update_form.correo, class='form-control', placeholder=current_user.correo) }}
+                    </div>
+                    <div class="form-group">
+                        {{ render_field(update_form.old_password, class='form-control', placeholder='Contraseña antigua') }}
+                    </div>
+                    <div class="form-group">
+                        {{ render_field(update_form.password, class='form-control', placeholder='Contraseña') }}
+                    </div>
+                    <div class="form-group">
+                        {{ render_field(update_form.confirm_password, class='form-control', placeholder='Confirmar contraseña') }}
+                    </div>
+                    
+                    <!-- Button trigger modal -->
+                    <div class="form-group text-center">
+                        <button type="button" class="btn btn-color" data-toggle="modal" data-target="#modalActualizar">
+                            Actualizar
+                        </button>
+                        <input type="submit" id="btn-send" hidden>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-</main>
-
-
+</div>
 {% endblock %}

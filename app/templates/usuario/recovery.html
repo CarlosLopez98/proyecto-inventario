@@ -1,0 +1,29 @@
+{% from 'helpers/_forms.html' import render_field %}
+{% extends 'layout.html' %}
+
+{% block main_content %}
+
+<div class="card">
+    <div class="card-header">
+        Iniciar sesión
+    </div>
+    <div class="card-body">
+        <form method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+
+            <div class="form-group">
+                {{ render_field(recovery_form.correo, class='form-control', placeholder='Correo Electrónico') }}
+            </div>
+
+            <div class="info text-center">
+                <p>Se te enviará un correo con indicaciones para recuperar tu contraseña</p>
+            </div>
+
+            <div class="form-group text-center">
+                <input type="submit" value="Enviar" class="btn btn-color">
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
