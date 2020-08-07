@@ -3,7 +3,7 @@ from flask import render_template, request, flash, redirect, url_for, abort
 from flask_login import login_user, logout_user, login_required, current_user
 from .forms import LoginForm, RegisterForm, RecoveryForm, UpdateUserForm
 from .forms import ProductForm
-from .models import Usuario, Producto, Categoria, Estado
+from .models import Usuario, Producto, Categoria, Estado, Proveedor
 from . import login_manager
 
 page = Blueprint('page', __name__)
@@ -234,11 +234,33 @@ def perfil():
 @login_required
 def productos():
 
+    if request.args.get('panel'):
+        if request.args.get('panel') == 'añadir':
+            panel = 'añadir'
+    else:
+        panel = 'todos'
+
     productos = Producto.get_all()
+    proveedores = Proveedor.get_all()
+    providers = []
     categorias = Categoria.get_all()
     categories = []
     estados = Estado.get_all()
     status = []
+
+    if request.args.get('estado'):
+        for estado in estados:
+            if estado.id == int(request.args.get('estado')):
+                print(estado.id)
+                productos = estado.productos
+
+    if request.args.get('categoria'):
+        for categoria in categorias:
+            if categoria.id == int(request.args.get('categoria')):
+                productos = categoria.productos
+
+    for proveedor in proveedores:
+        providers.append((proveedor.id, proveedor.nombre))
 
     for categoria in categorias:
         categories.append((categoria.id, categoria.nombre))
@@ -246,23 +268,108 @@ def productos():
     for estado in estados:
         status.append((estado.id, estado.nombre))
 
-    form = ProductForm()
+    form = ProductForm(request.form)
+    form.providers = providers
     form.categories = categories
     form.status = status
 
-    return render_template('producto/index.html', title='Productos', 
-        productos_active='item-active', productos=productos, form=form)
+    if request.method == 'POST':
+        if request.form['accion'] == 'buscar':
+            buscar = request.form['buscar']
+            if buscar != '':
+                productos = Producto.get_by_name(buscar)
 
-@page.route('/producto/nuevo')
+
+        elif request.form['accion'] == 'añadir':
+            if form.validate():
+                nombre = form.nombre.data
+                descripcion = form.descripcion.data
+                precio = form.precio.data
+                iva = form.iva.data
+                categoria_id = form.categoria.data
+                estado_id = form.estado.data
+                proveedor_id = form.proveedor.data
+
+                producto = Producto.create_element(nombre, descripcion, precio, iva, proveedor_id, categoria_id, estado_id)
+                flash('Producto guardado con éxito.', 'exito')
+
+                return render_template('producto/index.html', title='Productos', 
+            productos_active='item-active', productos=productos, form=form, panel='todos')
+            else:
+                return render_template('producto/index.html', title='Productos',
+                                    productos_active='item-active', productos=productos, form=form, panel='añadir')
+
+    return render_template('producto/index.html', title='Productos', productos_active='item-active', 
+                            productos=productos, form=form, panel=panel, categorias=categorias, estados=estados)
+
+@page.route('/producto/eliminar', methods=['GET'])
 @login_required
-def añadir_producto():
-    return render_template('producto/añadirproducto.html', title='Añadir producto')
+def eliminar_producto():
+    if request.args.get('producto_id'):
+        producto_id = request.args.get('producto_id')
+        producto = Producto.update_estado(producto_id)
+        if producto:
+            if producto.estado_id == 1:
+                flash('El producto pasó a estado "Activo"', 'exito')
+            elif producto.estado_id == 2:
+                flash('El producto pasó a estado "Inactivo"', 'exito')
+        else:
+            flash('Hubo problemas para cambiar el estado del producto', 'warning')
 
 
-@page.route('/producto/consultar')
+    return redirect(url_for('page.productos'))
+
+
+@page.route('/producto/editar', methods=['GET', 'POST'])
 @login_required
-def consultar_producto():
-    return render_template('producto/consultarproducto.html', title='Consultar producto')
+def editar_producto():
+
+    if request.args.get('producto_id'):
+        producto_id = request.args.get('producto_id')
+
+        producto = Producto.get_by_id(producto_id)
+
+        if producto.estado_id == 2:
+            flash('Este producto se encuentra inactivo y no se puede editar', 'warning')
+            return redirect(url_for('page.productos'))
+
+        proveedores = Proveedor.get_all()
+        categorias = Categoria.get_all()
+        estados = Estado.get_all()
+
+        form = ProductForm(request.form)
+
+        # METODO POST
+        if request.method == 'POST':
+            nombre = request.form['nombre']
+            descripcion = request.form['descripcion']
+            precio = request.form['precio']
+            proveedor = request.form['proveedor']
+            categoria = request.form['categoria']
+            estado = request.form['estado']
+            iva = request.form['iva']
+
+            # Posibles validaciones
+
+            producto.update_element(
+                id=producto.id,
+                nombre=nombre,
+                descripcion=descripcion,
+                precio=precio,
+                iva=True if iva == 'on' else False,
+                proveedor_id=proveedor,
+                categoria_id=categoria,
+                estado_id=estado
+            )
+
+            flash('El producto se actualizó con éxito', 'exito')
+            return redirect(url_for('page.productos'))
+    else:
+        return redirect(url_for('page.productos'))
+
+    return render_template('producto/editar.html', title='Editar productos', 
+                            productos_active='item-active', form=form, producto=producto,
+                            proveedores=proveedores, categorias=categorias, estados=estados)
 
 
 @page.route('/proveedores')

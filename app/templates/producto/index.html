@@ -9,44 +9,111 @@
 
     <nav>
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            {%if panel != 'añadir' %}
             <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"
                 aria-controls="nav-home" aria-selected="true">Todos</a>
             <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab"
                 aria-controls="nav-profile" aria-selected="false">Añadir</a>
+            {% elif panel and panel == 'añadir' %}
+            <a class="nav-item nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"
+                aria-controls="nav-home" aria-selected="true">Todos</a>
+            <a class="nav-item nav-link active" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab"
+                aria-controls="nav-profile" aria-selected="false">Añadir</a>
+            {% endif %}
         </div>
     </nav>
     <div class="tab-content" id="nav-tabContent">
+        {% if panel and panel != 'añadir' %}
         <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-general-tab">
+        {% else %}
+        <div class="tab-pane fade" id="nav-home" role="tabpanel" aria-labelledby="nav-general-tab">
+        {% endif %}
             <div class="nav-content">
                 <h3 class="text-center">Todos los productos</h3>
+                    <div class="dropdown show">
+                        <a class="btn btn-outline-primary dropdown-toggle filter" href="#" role="button" id="dropdownMenuLink"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Estados
+                        </a>
+                    
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item" href="{{ url_for('page.productos') }}">Todos</a>
+                            {% for estado in estados %}
+                            <a class="dropdown-item"
+                                href="{{ url_for('page.productos', estado=estado.id) }}">{{ estado.nombre }}</a>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="dropdown show">
+                        <a class="btn btn-outline-primary dropdown-toggle filter" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            Categorias
+                        </a>
+                    
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item" href="{{ url_for('page.productos') }}">Ninguna</a>
+                            {% for categoria in categorias %}
+                            <a class="dropdown-item" href="{{ url_for('page.productos', categoria=categoria.id) }}">{{ categoria.nombre }}</a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                <!-- Formulario para buscar -->
+                <form method="POST" name="search-form">
+                    <input type="hidden" name="accion" value="buscar">
+                    <div class="input-group mb-3">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                        <input type="search" class="form-control" name="buscar" placeholder="Buscar..." aria-label="Buscar..."
+                            aria-describedby="button-addon2">
+                        <div class="input-group-append">
+                            <input class="btn btn-outline-primary" type="submit" id="button-addon2" value="Buscar">
+                        </div>
+                    </div>
+                </form>
                 <div class="table-responsive">
                     <table class="table table-striped">
                         <thead class="thead-color">
                             <tr>
-                                <th scope="col">id</th>
-                                <th scope="col">Nombre</th>
-                                <th scope="col">Precio</th>
-                                <th scope="col">Cant.</th>
+                                <th scope="col">id <a href="" class="icon-down-dir"></a></th>
+                                <th scope="col">Nombre <a href="" class="icon-down-dir"></a></th>
+                                <th scope="col">Precio (IVA) <a href="" class="icon-down-dir"></a></th>
+                                <th scope="col">Cant. <a href="" class="icon-down-dir"></a></th>
                                 <th scope="col">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for producto in productos %}
+                            {% if producto.estado_id == 1 %}
                             <tr>
+                            {% else %}
+                            <tr class="table-row-deactivate">
+                            {% endif %}
                                 <th scope="row">{{ producto.id }}</th>
-                                <td>{{ producto.nombre }}</td>
-                                <td>{{ producto.precio}}</td>
+                                <td class="popover-color"><a type="button" data-toggle="popover" title="Descripción" data-content="{{ producto.descripcion }}">{{ producto.nombre }}</a></td>
+                                {% if producto.iva %}
+                                <td>{{ producto.precio }} ({{ producto.precio*producto.valor_iva }})</td>
+                                {% else %}
+                                <td>{{ producto.precio }}</td>
+                                {% endif %}
                                 <td>{{ producto.cantidad}}</td>
                                 <td>
-                                    <a href="" data-toggle="tooltip" data-placement="top" title="Realizar un movimiento">
+                                    {% if producto.estado_id == 1 %}
+                                    <a href="{{ url_for('page.editar_producto', producto_id=producto.id) }}" data-toggle="tooltip" data-placement="top" title="Realizar un movimiento">
                                         <span class="icon-exchange"></span>
                                     </a>
-                                    <a href="" data-toggle="tooltip" data-placement="top" title="Editar producto">
+                                    <a href="{{ url_for('page.editar_producto', producto_id=producto.id) }}" data-toggle="tooltip" data-placement="top" title="Editar producto">
                                         <span class="icon-edit text-success"></span>
                                     </a>
-                                    <a href="" data-toggle="tooltip" data-placement="top" title="Eliminar producto">
+                                    
+                                    <a href="{{ url_for('page.eliminar_producto', producto_id=producto.id) }}" data-toggle="tooltip" data-placement="top" title="Eliminar producto">
                                         <span class="icon-trash-empty text-danger"></span>
                                     </a>
+                                    {% else %}
+                                    <a href="{{ url_for('page.eliminar_producto', producto_id=producto.id) }}" data-toggle="tooltip" data-placement="top"
+                                        title="Reactivar producto">
+                                        <span class="icon-trash-empty text-success"></span>
+                                    </a>
+                                    {% endif %}
                                 </td>
                             </tr>
                             {% endfor %}
@@ -55,13 +122,17 @@
                 </div>
             </div>
         </div>
+        {% if panel and panel == 'añadir' %}
+        <div class="tab-pane fade show active" id="nav-profile" role="tabpanel" aria-labelledby="nav-config-tab">
+        {% else %}
         <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-config-tab">
+        {% endif %}
             <div class="nav-content">
                 <h3 class="text-center">Añadir producto</h3>
                 <form method="POST" class="form2col">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
 
-                    {{ render_field(form.honeypot) }}
+                    <input type="hidden" name="accion" value="añadir">
 
                     <div class="form-left">
                         <div class="form-group">
@@ -77,6 +148,10 @@
                         </div>
                     </div>
                     <div class="form-right">
+                        <div class="form-group">
+                            {{ render_field(form.proveedor, class='form-control') }}
+                        </div>
+
                         <div class="form-group">
                             {{ render_field(form.categoria, class='form-control') }}
                         </div>

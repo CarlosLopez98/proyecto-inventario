@@ -113,25 +113,33 @@ class UpdateUserForm(Form):
 # Formularios para productos
 class ProductForm(Form):
     
-    nombre = StringField('Titulo', [
-        validators.length(min=4, max=50, message='Título fuera de rango.'),
-        validators.DataRequired(message='El título es requerido.')
+    nombre = StringField('Nombre', [
+        validators.length(min=4, max=50, message='Nombre fuera de rango.'),
+        validators.DataRequired(message='El nombre es requerido.')
     ])
     descripcion = TextAreaField('Descripción', render_kw={'rows': 4})
-    precio = FloatField('Precio', [
+    precio = FloatField('Precio',[
+        validators.number_range(min=1000, max=99000000, message='Precio fuera de rango'),
+        validators.DataRequired(message='El precio es requerido.')
+    ])
+    iva = BooleanField('¿Tiene iva?')
 
-    ])
-    iva = BooleanField('¿Tiene iva?', [
-        validators.DataRequired()
-    ])
+    proveedores = []
+    proveedor = SelectField('Proveedor', choices=proveedores, validate_choice=False)
     
     categorias = []
-    categoria = SelectField('Categoría', choices=categorias)
+    categoria = SelectField('Categoría', choices=categorias, validate_choice=False)
 
     estados = []
-    estado = SelectField('Estado', choices=estados)
+    estado = SelectField('Estado', choices=estados, validate_choice=False)
 
-    honeypot = HiddenField('', [lenght_honeypot])
+    @property
+    def providers(self):
+        pass
+
+    @providers.setter
+    def providers(self, providers):
+        self.proveedor.choices = providers
 
     @property
     def categories(self):
@@ -139,7 +147,7 @@ class ProductForm(Form):
 
     @categories.setter
     def categories(self, categories):
-        self.categorias = categories
+        #self.categorias = categories
         self.categoria.choices = categories
 
     @property
@@ -148,5 +156,5 @@ class ProductForm(Form):
 
     @status.setter
     def status(self, status):
-        self.estados = status
+        #self.estados = status
         self.estado.choices = status

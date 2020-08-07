@@ -15,7 +15,7 @@ csrf = CSRFProtect()
 login_manager = LoginManager()
 
 
-from .models import Usuario, Categoria, Estado, Producto, Movimiento, Pedido, Proveedor
+from .models import Usuario, Categoria, Estado, Producto, Tipo, Movimiento, Proveedor
 from .views import page
 
 

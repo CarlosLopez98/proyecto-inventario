@@ -15,6 +15,7 @@ INSERT INTO categorias VALUES(null, 'Estufas');
 INSERT INTO categorias VALUES(null, 'Hornos');
 INSERT INTO categorias VALUES(null, 'Lavadoras');
 INSERT INTO categorias VALUES(null, 'Refigeración');
+INSERT INTO categorias VALUES(null, 'Televisores');
 INSERT INTO categorias VALUES(null, 'Video');
 INSERT INTO categorias VALUES(null, 'Audio');
 INSERT INTO categorias VALUES(null, 'Celulares');
@@ -24,3 +25,33 @@ INSERT INTO categorias VALUES(null, 'Computadores');
 /* ESTADOS */
 INSERT INTO estados VALUES(null, 'Activo');
 INSERT INTO estados VALUES(null, 'Inactivo');
+
+/* PROVEEDORES */
+INSERT INTO proveedores VALUES(null, 'LG Electronics', 'Carrera 00 #000 - 00', '0 000 000');
+INSERT INTO proveedores VALUES(null, 'Samsung', 'Carrera 00 #000 - 00', '0 000 000');
+INSERT INTO proveedores VALUES(null, 'Whirlpool', 'Carrera 00 #000 - 00', '0 000 000');
+INSERT INTO proveedores VALUES(null, 'Electrolux', 'Carrera 00 #000 - 00', '0 000 000');
+INSERT INTO proveedores VALUES(null, 'Mabe', 'Carrera 00 #000 - 00', '0 000 000');
+INSERT INTO proveedores VALUES(null, 'Airlux', 'Carrera 00 #000 - 00', '0 000 000');
+INSERT INTO proveedores VALUES(null, 'Haceb', 'Carrera 00 #000 - 00', '0 000 000');
+INSERT INTO proveedores VALUES(null, 'Abba', 'Carrera 00 #000 - 00', '0 000 000');
+INSERT INTO proveedores VALUES(null, 'ASUS', 'Carrera 00 #000 - 00', '0 000 000');
+
+/* PRDUCTOS */
+INSERT INTO productos VALUES(null, 'Nevera 331 Lts Brutos', 'Nevera de color gris con capacidad de 331 litros brutos.', 1600000, 0, 1, '2020-07-31 19:01:58.428697', 4, 1, 2);
+INSERT INTO productos VALUES(null, 'Nevera 374 L', 'Nevera de color gris con capacidad de 374 litros.', 2000000, 0, 1, '2020-07-31 19:01:58.428697', 4, 1, 1);
+INSERT INTO productos VALUES(null, 'Nevera 230 L', 'Nevera de color gris con capacidad de 230 litros.', 1000000, 0, 1, '2020-07-31 19:01:58.428697', 4, 1, 7);
+INSERT INTO productos VALUES(null, 'Lavadora 18kg', 'Lavadora de color gris oscuro con carga superior de 18 kg.', 1300000, 0, 1, '2020-07-31 19:01:58.428697', 3, 1, 3);
+INSERT INTO productos VALUES(null, 'Lavadora 19kg', 'Lavadora de color negro con carga superior de 19 kg.', 1700000, 0, 1, '2020-07-31 19:01:58.428697', 3, 1, 2);
+INSERT INTO productos VALUES(null, 'Lavadora 18kg', 'Lavadora de color negro con carga superior de 18 kg.', 1300000, 0, 1, '2020-07-31 19:01:58.428697', 3, 1, 7);
+INSERT INTO productos VALUES(null, 'Estufa de piso 4 puestos', 'Estufa de piso 4 puestos a gas natural color negro', 350000, 0, 1, '2020-07-31 19:01:58.428697', 1, 1, 8);
+INSERT INTO productos VALUES(null, 'Estufa cubierta 60cms 4 puestos', 'Estufa para cubierta de 60cms con 4 puestos a gas natural', 250000, 0, 1, '2020-07-31 19:01:58.428697', 1, 1, 7);
+INSERT INTO productos VALUES(null, 'Televisor 43"', 'Televisor LED de 43 pulagadas', 1200000, 0, 1, '2020-07-31 19:01:58.428697', 5, 1, 2);
+INSERT INTO productos VALUES(null, 'Televisor 55"', 'Televisor LED de 55 pulagadas', 1800000, 0, 1, '2020-07-31 19:01:58.428697', 5, 1, 1);
+INSERT INTO productos VALUES(null, 'ASUS ExpertBook B9', 'Portatil i7 10th, 16gb de ram y 1tb de disco duro', 2200000, 0, 1, '2020-07-31 19:01:58.428697', 10, 1, 9);
+
+/* TIPOS MOVIMIENTO */
+INSERT INTO tipos VALUES(null, 'Entrada');
+INSERT INTO tipos VALUES(null, 'Salida');
+
+/* MOVIMIENTOS */

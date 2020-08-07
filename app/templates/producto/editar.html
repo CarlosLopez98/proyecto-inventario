@@ -1,0 +1,88 @@
+{% from 'helpers/_forms.html' import render_field %}
+{% extends 'layout.html' %}
+
+{% block main_content %}
+<div class="container-box">
+    <h2 class="text-center">Productos</h2>
+    <div class="divisor-line orange"></div>
+
+    <div class="nav-content">
+        <h3 class="text-center">Editar producto</h3>
+        <form method="POST" class="form2col">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+    
+            <input type="hidden" name="accion" value="añadir">
+    
+            <div class="form-left">
+                <div class="form-group">
+                    <dt><label for="nombre">Nombre</label></dt>
+                    <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre del producto" value="{{ producto.nombre }}" required>
+                </div>
+    
+                <div class="form-group">
+                    <dt><label for="descripcion">Descripción</label></dt>
+                    <textarea class="form-control" name="descripcion" id="descripcion" rows="4" placeholder="Descripción del producto">{{ producto.descripcion }}</textarea>
+                </div>
+    
+                <div class="form-group">
+                    <dt><label for="precio">Precio</label></dt>
+                    <input type="text" class="form-control" id="precio" name="precio" value="{{ producto.precio }}" required>
+                </div>
+            </div>
+            <div class="form-right">
+                <div class="form-group">
+                    <dt><label for="proveedor">Proveedor</label></dt>
+                    <select name="proveedor" id="proveedor" class="form-control">
+                    {% for proveedor in proveedores %}
+                        {% if proveedor.id == producto.proveedor_id %}
+                        <option value="{{ proveedor.id }}" selected>{{ proveedor.nombre }}</option>
+                        {% else %}
+                        <option value="{{ proveedor.id }}">{{ proveedor.nombre }}</option>
+                        {% endif %}
+                    {% endfor %}
+                    </select>
+                </div>
+    
+                <div class="form-group">
+                    <dt><label for="categoria">Categorias</label></dt>
+                    <select name="categoria" id="categoria" class="form-control">
+                    {% for categoria in categorias %}
+                        {% if categoria.id == producto.categoria_id %}
+                        <option value="{{ categoria.id }}" selected>{{ categoria.nombre }}</option>
+                        {% else %}
+                        <option value="{{ categoria.id }}">{{ categoria.nombre }}</option>
+                        {% endif %}
+                    {% endfor %}
+                    </select>
+                </div>
+    
+                <div class="form-group">
+                    <dt><label for="estado">Estados</label></dt>
+                    <select name="estado" id="estado" class="form-control">
+                    {% for estado in estados %}
+                        {% if estado.id == producto.estado_id %}
+                        <option value="{{ estado.id }}" selected>{{ estado.nombre }}</option>
+                        {% else %}
+                        <option value="{{ estado.id }}">{{ estado.nombre }}</option>
+                        {% endif %}
+                    {% endfor %}
+                    </select>
+                </div>
+    
+                <div class="form-group">
+                    <dt><label for="iva">¿Tiene iva?</label></dt>
+                    {% if producto.iva %}
+                    <input type="checkbox" class="form-control check-field" id="iva" name="iva" checked>
+                    {% else %}
+                    <input type="checkbox" class="form-control check-field" id="iva" name="iva">
+                    {% endif %}
+                </div>
+            </div>
+    
+            <div class="form-group text-center form-btn">
+                <input type="submit" value="Añadir" class="btn btn-color">
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

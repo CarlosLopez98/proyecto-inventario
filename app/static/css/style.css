@@ -262,6 +262,22 @@ table span {
     color: var(--azul-oscuro-hover);
 }
 
+.table-row-deactivate {
+    background-color: #FF9191 !important;
+}
+
+.popover-header {
+    color: var(--negro) !important;
+}
+
+.nav-content .filter {
+    width: 50%;
+    float: left;
+    margin-bottom: 5px;
+    background-color: var(--blanco) !important;
+    color: var(--negro) !important;
+}
+
 /* Modales */
 
 .modal {
@@ -334,6 +350,11 @@ table span {
 
     .mensaje-info {
         width: 90%;
+    }
+
+    .nav-content .filter {
+        width: 150px;
+        margin-right: 10px;
     }
 }
 

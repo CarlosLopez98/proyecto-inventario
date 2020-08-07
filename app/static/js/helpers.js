@@ -14,3 +14,7 @@ function redireccionar_modal() {
         document.getElementById('btn-send').click();
     }
 }
+
+$(function () {
+    $('[data-toggle="popover"]').popover()
+})

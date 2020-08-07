@@ -1,5 +1,5 @@
 from app import create_app
-from app import db, Usuario, Categoria, Estado, Producto, Movimiento, Pedido, Proveedor
+from app import db, Usuario, Categoria, Estado, Producto, Tipo, Movimiento, Proveedor
 from flask_script import Manager, Shell
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate, MigrateCommand
@@ -13,8 +13,8 @@ migrate = Migrate(app, db)
 
 def make_shell_context():
     return dict(app=app, db=db, Usuario=Usuario, 
-        Categoria=Categoria, Estado=Estado, Producto=Producto, 
-        Movimiento=Movimiento, Pedido=Pedido, Proveedor=Proveedor)
+        Categoria=Categoria, Estado=Estado, Producto=Producto, Tipo=Tipo,
+        Movimiento=Movimiento, Proveedor=Proveedor)
 
 
 if __name__ == '__main__':
