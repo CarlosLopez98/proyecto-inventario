@@ -5,7 +5,7 @@ class Config:
 
 class DevelopmentConfig(Config):
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///proyecto_inventarios.sqlite3'
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///data/proyecto_inventarios.sqlite3'
     """
     SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://{username}:{password}@{hostname}/{database}'.format(
         username = 'root',
@@ -15,6 +15,17 @@ class DevelopmentConfig(Config):
     )
     """
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+    # Configuracion para el envio de correos
+    MAIL_SERVER = 'smtp.googlemail.com'
+    MAIL_PORT = 587
+    MAIL_USE_TLS = True
+    MAIL_USERNAME = 'mail@gmail.com'
+    MAIL_PASSWORD = 'clave'
+    #MAIL_PASSWORD = config(MAIL_PASSWORD)
+
+class ProductionConfig(Config):
+    SQLALCHEMY_DATABASE_URI = ""
 
     # Configuracion para el envio de correos
     MAIL_SERVER = 'smtp.googlemail.com'
