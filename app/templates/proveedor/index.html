@@ -1,10 +1,123 @@
+{% from 'helpers/_forms.html' import render_field %}
 {% extends 'layout.html' %}
 
 {% block main_content %}
 
 <div class="container-box">
-    <h2 class="text-center">Proveedores</h2>
+    <a href="{{ url_for('page.proveedores') }}"><h2 class="text-center">Proveedores</h2></a>
     <div class="divisor-line orange"></div>
+
+    <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            {%if panel != 'añadir' %}
+            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"
+                aria-controls="nav-home" aria-selected="true">Todos</a>
+            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab"
+                aria-controls="nav-profile" aria-selected="false">Añadir</a>
+            {% elif panel and panel == 'añadir' %}
+            <a class="nav-item nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"
+                aria-controls="nav-home" aria-selected="true">Todos</a>
+            <a class="nav-item nav-link active" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab"
+                aria-controls="nav-profile" aria-selected="false">Añadir</a>
+            {% endif %}
+        </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+        {% if panel and panel != 'añadir' %}
+        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-general-tab">
+        {% else %}
+        <div class="tab-pane fade" id="nav-home" role="tabpanel" aria-labelledby="nav-general-tab">
+        {% endif %}
+            <div class="nav-content">
+                <h3 class="text-center">Todos los proveedores</h3>
+
+                <!-- Formulario para buscar -->
+                <form method="POST" name="search-form">
+                    <input type="hidden" name="accion" value="buscar">
+                    <div class="input-group mb-3">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                        <input type="search" class="form-control" name="buscar" placeholder="Buscar..." aria-label="Buscar..."
+                            aria-describedby="button-addon2">
+                        <div class="input-group-append">
+                            <input class="btn btn-outline-primary" type="submit" id="button-addon2" value="Buscar">
+                        </div>
+                    </div>
+                </form>
+
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead class="thead-color">
+                            <tr>
+                                <th scope="col">id<a href="" class="icon-down-dir"></a></th>
+                                <th scope="col">Nombre<a href="" class="icon-down-dir"></a></th>
+                                <th scope="col">Dirección<a href="" class="icon-down-dir"></a></th>
+                                <th scope="col">Teléfono<a href="" class="icon-down-dir"></a></th>
+                                <th scope="col">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for proveedor in proveedores %}
+                            {% if proveedor.estado == 'activo' %}
+                            <tr>
+                            {% else %}
+                            <tr class="table-row-deactivate">
+                            {% endif %}
+                                <th scope="row">{{ proveedor.id }}</th>
+                                <td>{{ proveedor.nombre }}</td>
+                                <td>{{ proveedor.direccion }}</td>
+                                <td>{{ proveedor.telefono }}</td>
+                                <td>
+                                    {% if proveedor.estado == 'activo' %}
+                                    <a href="{{ url_for('page.editar_proveedor', proveedor_id=proveedor.id) }}" data-toggle="tooltip" data-placement="top"
+                                        title="Editar proveedor">
+                                        <span class="icon-edit text-success"></span>
+                                    </a>
+                                    {% endif %}
+                                    <a href="{{ url_for('page.eliminar_proveedor', proveedor_id=proveedor.id) }}" data-toggle="tooltip"
+                                        data-placement="top" title="Eliminar proveedor">
+                                        <span class="icon-trash-empty text-danger"></span>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        {% if panel and panel == 'añadir' %}
+        <div class="tab-pane fade show active" id="nav-profile" role="tabpanel" aria-labelledby="nav-config-tab">
+        {% else %}
+        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-config-tab">
+        {% endif %}
+            <div class="nav-content">
+                <h3 class="text-center">Añadir proveedor</h3>
+
+                <form method='POST'>
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                    
+                    <input type="hidden" name="accion" value="añadir">
+
+                    <div class="form-group">
+                        {{ render_field(form.nombre, class='form-control', placeholder='Nombre del proveedor') }}
+                    </div>
+
+                    <div class="form-group">
+                        {{ render_field(form.direccion, class='form-control', placeholder='Dirección del proveedor') }}
+                    </div>
+
+                    <div class="form-group">
+                        {{ render_field(form.telefono, class='form-control', placeholder='Teléfono del proveedor') }}
+                    </div>
+
+                    <div class="form-group text-center">
+                        <input type="submit" value="Añadir" class="btn btn-color">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 
 {% endblock %}

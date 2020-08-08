@@ -1,0 +1,32 @@
+{% from 'helpers/_forms.html' import render_field %}
+{% extends 'layout.html' %}
+
+{% block main_content %}
+<div class="container-box">
+    <a href="{{ url_for('page.proveedores') }}"><h2 class="text-center">Proveedores</h2></a>
+    <div class="divisor-line orange"></div>
+
+    <div class="nav-content">
+        <h3 class="text-center">Editar proveedor</h3>
+        <form method="POST" id="" class="form2col">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+
+            <div class="form-group">
+                {{ render_field(form.nombre, class='form-control', placeholder='Nombre del proveedor', value=proveedor.nombre) }}
+            </div>
+
+            <div class="form-group">
+                {{ render_field(form.direccion, class='form-control', placeholder='Dirección del proveedor', value=proveedor.direccion) }}
+            </div>
+
+            <div class="form-group">
+                {{ render_field(form.telefono, class='form-control', placeholder='Teléfono del proveedor', value=proveedor.telefono) }}
+            </div>
+
+            <div class="form-group text-center form-btn">
+                <input type="submit" id="" value="Editar" class="btn btn-color">
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

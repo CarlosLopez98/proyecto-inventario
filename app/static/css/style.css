@@ -278,6 +278,11 @@ table span {
     color: var(--negro) !important;
 }
 
+label.error {
+    color: var(--naranja-oscuro) !important;
+    font-size: 0.75rem;
+}
+
 /* Modales */
 
 .modal {

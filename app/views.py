@@ -2,8 +2,8 @@ from flask import Blueprint
 from flask import render_template, request, flash, redirect, url_for, abort
 from flask_login import login_user, logout_user, login_required, current_user
 from .forms import LoginForm, RegisterForm, RecoveryForm, UpdateUserForm
-from .forms import ProductForm
-from .models import Usuario, Producto, Categoria, Estado, Proveedor
+from .forms import ProductForm, ProviderForm
+from .models import Usuario, Producto, Categoria, Estado, Proveedor, Movimiento, Tipo
 from . import login_manager
 
 page = Blueprint('page', __name__)
@@ -372,13 +372,103 @@ def editar_producto():
                             proveedores=proveedores, categorias=categorias, estados=estados)
 
 
-@page.route('/proveedores')
+@page.route('/proveedores', methods=['GET', 'POST'])
 @login_required
 def proveedores():
-    return render_template('proveedor/index.html', title='Proveedores', proveedores_active='item-active')
+
+    if request.args.get('panel'):
+        panel = request.args.get('panel')
+    else:
+        panel = 'todos'
+
+    proveedores = Proveedor.get_all()
+
+    form = ProviderForm(request.form)
+
+    if request.method == 'POST':
+        if request.form['accion'] == 'añadir':
+            if form.validate():
+                nombre = form.nombre.data
+                direccion = form.direccion.data
+                telefono = form.telefono.data
+
+                proveedor = Proveedor.create_element(nombre=nombre, direccion=direccion, telefono=telefono)
+                flash('El proveedor se ha creado con éxito.', 'exito')
+                return redirect(url_for('page.proveedores'))
+            else:
+                flash('El formulario debe estar correctamente diligenciado.', 'danger')
+                return redirect(url_for('page.proveedores', panel='añadir'))
+        elif request.form['accion'] == 'buscar':
+            buscar = request.form['buscar']
+            if buscar != '':
+                proveedores = Proveedor.get_by_name(buscar)
+
+    return render_template('proveedor/index.html', title='Proveedores', proveedores_active='item-active',
+                            proveedores=proveedores, panel=panel, form=form)
 
 
-@page.route('/proveedor/consultar')
+@page.route('/proveedor/editar', methods=['GET', 'POST'])
 @login_required
-def consultar_proveedor():
-    return render_template('proveedor/consultarproveedor.html', title='Consultar proveedor')
+def editar_proveedor():
+
+    if request.args.get('proveedor_id'):
+        proveedor_id = request.args.get('proveedor_id')
+
+        proveedor = Proveedor.get_by_id(proveedor_id)
+
+        if proveedor.estado == 'inactivo':
+            flash('No puede editar el proveedor debido a que está inactivo', 'warning')
+            return redirect(url_for('page.proveedores'))
+
+        # Opcional para menejo de estados en los proveedores
+        #if producto.estado_id == 2:
+        #    flash('Este producto se encuentra inactivo y no se puede editar', 'warning')
+        #    return redirect(url_for('page.productos'))
+
+        form = ProviderForm(request.form)
+
+        if proveedor:
+            # METODO POST
+            if request.method == 'POST':
+                if form.validate():
+                    nombre = form.nombre.data
+                    direccion = form.direccion.data
+                    telefono = form.telefono.data
+
+                    proveedor.update_element(
+                        id=proveedor.id,
+                        nombre=nombre,
+                        direccion=direccion,
+                        telefono=telefono
+                    )
+
+                    flash('El proveedor se actualizó con éxito', 'exito')
+                    return redirect(url_for('page.proveedores'))
+        else:
+            flash('El proveedor que está tratando de editar no existe.', 'warning')
+            return redirect(url_for('page.proveedores'))
+    else:
+        return redirect(url_for('page.proveedores'))
+
+    return render_template('proveedor/editar.html', title='Consultar proveedor', proveedores_active='item-active',
+                            form=form, proveedor=proveedor)
+
+@page.route('/proveedor/eliminar', methods=['GET'])
+@login_required
+def eliminar_proveedor():
+    if request.args.get('proveedor_id'):
+        proveedor_id = request.args.get('proveedor_id')
+
+        proveedor = Proveedor.get_by_id(proveedor_id)
+
+        if proveedor:
+            proveedor = Proveedor.update_estado(proveedor_id)
+
+            if proveedor.estado == 'activo':
+                flash('El proveedor ha sido nuevamente agregado.', 'exito')
+            elif proveedor.estado == 'inactivo':
+                flash('El proveedor ha sido eliminado.', 'exito')
+        else:
+            flash('El proveedor que intenta eliminar no existe.', 'warning')
+    
+    return redirect(url_for('page.proveedores'))

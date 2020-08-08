@@ -158,3 +158,18 @@ class ProductForm(Form):
     def status(self, status):
         #self.estados = status
         self.estado.choices = status
+
+
+class ProviderForm(Form):
+
+    nombre = StringField('Nombre', [
+        validators.length(min=4, max=50, message='Nombre fuera de rango.'),
+        validators.DataRequired(message='El nombre es requerido.')
+    ])
+    direccion = StringField('Dirección', [
+        validators.length(min=6, max=50, message='Direccion fuera de rango de caracteres.')
+    ])
+    telefono = StringField('Teléfono', [
+        validators.length(min=4, max=15, message='Teléfono fuera de rango.'),
+        validators.DataRequired(message='El teléfono es requerido.')
+    ])

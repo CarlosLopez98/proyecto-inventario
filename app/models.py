@@ -193,14 +193,15 @@ class Proveedor(db.Model):
     nombre = db.Column(db.String(50), nullable=False)
     direccion = db.Column(db.String(50), nullable=True)
     telefono = db.Column(db.String(15), nullable=False)
+    estado = db.Column(db.String(10), default='activo')
     productos = db.relationship('Producto', lazy='dynamic')
 
     def __str__(self):
         return self.nombre
 
     @ classmethod
-    def create_element(cls, nombre, telefono):
-        proveedor = Proveedor(nombre=nombre, telefono=telefono)
+    def create_element(cls, nombre, direccion, telefono):
+        proveedor = Proveedor(nombre=nombre, direccion=direccion, telefono=telefono)
 
         db.session.add(proveedor)
         db.session.commit()
@@ -208,13 +209,14 @@ class Proveedor(db.Model):
         return proveedor
 
     @ classmethod
-    def update_element(cls, id, nombre, telefono):
+    def update_element(cls, id, nombre, direccion, telefono):
         proveedor = Proveedor.get_by_id(id)
 
         if proveedor is None:
             return False
 
         proveedor.nombre = nombre
+        proveedor.direccion = direccion
         proveedor.telefono = telefono
 
         db.session.add(proveedor)
@@ -222,9 +224,44 @@ class Proveedor(db.Model):
 
         return proveedor
 
-    @ classmethod
+    @classmethod
+    def update_estado(cls, id):
+        proveedor = Proveedor.get_by_id(id)
+
+        if proveedor is None:
+            return False
+
+        if proveedor.estado == 'activo':
+            proveedor.estado = 'inactivo'
+        elif proveedor.estado == 'inactivo':
+            proveedor.estado = 'activo'
+
+        db.session.add(proveedor)
+        db.session.commit()
+
+        return proveedor
+
+    @classmethod
     def get_by_id(cls, id):
         return Proveedor.query.filter_by(id=id).first()
+
+    @classmethod
+    def get_by_name(cls, nombre=''):
+        if nombre:
+            query = f"SELECT * FROM proveedores WHERE nombre LIKE '%{nombre}%'"
+            results = db.session.execute(query)
+            proveedores = []
+
+            for result in results:
+                proveedor = Proveedor(
+                    id=result[0],
+                    nombre=result[1],
+                    direccion=result[2],
+                    telefono=result[3]
+                )
+                proveedores.append(proveedor)
+
+            return proveedores
 
     @classmethod
     def get_all(cls):

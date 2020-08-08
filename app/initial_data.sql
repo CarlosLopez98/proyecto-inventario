@@ -27,15 +27,15 @@ INSERT INTO estados VALUES(null, 'Activo');
 INSERT INTO estados VALUES(null, 'Inactivo');
 
 /* PROVEEDORES */
-INSERT INTO proveedores VALUES(null, 'LG Electronics', 'Carrera 00 #000 - 00', '0 000 000');
-INSERT INTO proveedores VALUES(null, 'Samsung', 'Carrera 00 #000 - 00', '0 000 000');
-INSERT INTO proveedores VALUES(null, 'Whirlpool', 'Carrera 00 #000 - 00', '0 000 000');
-INSERT INTO proveedores VALUES(null, 'Electrolux', 'Carrera 00 #000 - 00', '0 000 000');
-INSERT INTO proveedores VALUES(null, 'Mabe', 'Carrera 00 #000 - 00', '0 000 000');
-INSERT INTO proveedores VALUES(null, 'Airlux', 'Carrera 00 #000 - 00', '0 000 000');
-INSERT INTO proveedores VALUES(null, 'Haceb', 'Carrera 00 #000 - 00', '0 000 000');
-INSERT INTO proveedores VALUES(null, 'Abba', 'Carrera 00 #000 - 00', '0 000 000');
-INSERT INTO proveedores VALUES(null, 'ASUS', 'Carrera 00 #000 - 00', '0 000 000');
+INSERT INTO proveedores VALUES(null, 'LG Electronics', 'Carrera 00 #000 - 00', '0 000 000', 'activo');
+INSERT INTO proveedores VALUES(null, 'Samsung', 'Carrera 00 #000 - 00', '0 000 000', 'activo');
+INSERT INTO proveedores VALUES(null, 'Whirlpool', 'Carrera 00 #000 - 00', '0 000 000', 'activo');
+INSERT INTO proveedores VALUES(null, 'Electrolux', 'Carrera 00 #000 - 00', '0 000 000', 'activo');
+INSERT INTO proveedores VALUES(null, 'Mabe', 'Carrera 00 #000 - 00', '0 000 000', 'activo');
+INSERT INTO proveedores VALUES(null, 'Airlux', 'Carrera 00 #000 - 00', '0 000 000', 'activo');
+INSERT INTO proveedores VALUES(null, 'Haceb', 'Carrera 00 #000 - 00', '0 000 000', 'activo');
+INSERT INTO proveedores VALUES(null, 'Abba', 'Carrera 00 #000 - 00', '0 000 000', 'activo');
+INSERT INTO proveedores VALUES(null, 'ASUS', 'Carrera 00 #000 - 00', '0 000 000', 'activo');
 
 /* PRDUCTOS */
 INSERT INTO productos VALUES(null, 'Nevera 331 Lts Brutos', 'Nevera de color gris con capacidad de 331 litros brutos.', 1600000, 0, 1, '2020-07-31 19:01:58.428697', 4, 1, 2);

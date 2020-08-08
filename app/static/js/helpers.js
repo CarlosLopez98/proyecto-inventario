@@ -18,3 +18,20 @@ function redireccionar_modal() {
 $(function () {
     $('[data-toggle="popover"]').popover()
 })
+
+$(function(){
+    $('#btn-submit').on('click', function(){
+        $('#form-edit').validate({
+            rules: {
+                nombre: {required: true, minlength: 6, maxlength: 50},
+                descripcion: { required: true, minlength: 10, maxlength: 100},
+                precio: {required: true, number: true, min: 0}
+            },
+            messages: {
+                nombre: {required: 'El campo es requerido', minlength: 'El tamaño mímino del nombre es de 6 caracteres', maxlength: 'El tamaño máximo del nombre es de 50 caracteres'},
+                descripcion: { required: 'El campo es requerido', minlength: 'El tamaño mímino del nombre es de 10 caracteres', maxlength: 'El tamaño máximo del nombre es de 100 caracteres.' },
+                precio: {required: 'El campo es requerido', number: 'Este campo es de tipo numérico', min: 'El precio debe ser positivo'}
+            }
+        });
+    });
+});
