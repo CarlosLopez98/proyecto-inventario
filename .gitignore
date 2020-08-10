@@ -1,1 +1,4 @@
 venv/
+__pychache__
+app/__pychache__
+migrations/__pychache__
