@@ -26,6 +26,9 @@ class DevelopmentConfig(Config):
 
 class ProductionConfig(Config):
     SQLALCHEMY_DATABASE_URI = 'sqlite:///data/proyecto_inventarios.sqlite3'
+    ENV = 'production'
+    DEBUG = False
+    SERVER_NAME = 'carloslopez98.pythonanywhere.com'
 
     # Configuracion para el envio de correos
     MAIL_SERVER = 'smtp.googlemail.com'
