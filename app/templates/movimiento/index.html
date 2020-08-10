@@ -1,0 +1,85 @@
+{% from 'helpers/_forms.html' import render_field %}
+{% extends 'layout.html' %}
+
+{% block main_content %}
+<div class="container-box">
+    <a href="{{ url_for('page.movimientos') }}">
+        <h2 class="text-center">Movimientos</h2>
+    </a>
+    <div class="divisor-line orange"></div>
+
+    <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"
+                aria-controls="nav-home" aria-selected="true">Todos</a>
+        </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-general-tab">
+            <div class="nav-content">
+                <h3 class="text-center">Todos los Movimientos</h3>
+                <div class="dropdown show">
+                    <a class="btn btn-outline-primary dropdown-toggle filter" href="#" role="button"
+                        id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Tipo
+                    </a>
+
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item" href="{{ url_for('page.productos') }}">Todos</a>
+                    </div>
+                </div>
+
+                <div class="dropdown show">
+                    <a class="btn btn-outline-primary dropdown-toggle filter" href="#" role="button"
+                        id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Categorias
+                    </a>
+
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item" href="{{ url_for('page.productos') }}">Ninguna</a>
+                    </div>
+                </div>
+                <!-- Formulario para buscar -->
+                <form method="POST" name="search-form">
+                    <input type="hidden" name="accion" value="buscar">
+                    <div class="input-group mb-3">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                        <input type="search" class="form-control" name="buscar" placeholder="Buscar..."
+                            aria-label="Buscar..." aria-describedby="button-addon2">
+                        <div class="input-group-append">
+                            <input class="btn btn-outline-primary" type="submit" id="button-addon2" value="Buscar">
+                        </div>
+                    </div>
+                </form>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead class="thead-color">
+                            <tr>
+                                <!-- Poner el concepto en un popover-->
+                                <th scope="col">id <a href="" class="icon-down-dir"></a></th>
+                                <th scope="col">Producto<a href="" class="icon-down-dir"></a></th>
+                                <th scope="col">Usuario<a href="" class="icon-down-dir"></a></th>
+                                <th scope="col">Fecha<a href="" class="icon-down-dir"></a></th>
+                                <th scope="col">Cant.<a href="" class="icon-down-dir"></a></th>
+                                <th scope="col">Tipo<a href="" class="icon-down-dir"></a></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for movimiento in movimientos %}
+                            <tr>
+                                <th scope="row">{{ movimiento['movimiento'].id }}</th>
+                                <td>{{ movimiento['producto'].nombre }}</td>
+                                <td>{{ movimiento['usuario'] }}</td>
+                                <td>{{ movimiento['movimiento'].fecha.day }}-{{ movimiento['movimiento'].fecha.month }}-{{ movimiento['movimiento'].fecha.year }}</td>
+                                <td>{{ movimiento['movimiento'].cantidad }}</td>
+                                <td>{{ movimiento['tipo'].nombre }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

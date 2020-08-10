@@ -1,0 +1,64 @@
+{% from 'helpers/_forms.html' import render_field %}
+{% extends 'layout.html' %}
+
+{% block main_content %}
+<div class="container-box">
+    <a href="{{ url_for('page.movimientos') }}">
+        <h2 class="text-center">Movimientos</h2>
+    </a>
+    <div class="divisor-line orange"></div>
+
+    <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <a class="nav-item nav-link" id="nav-movements-tab" data-toggle="" href="{{ url_for('page.productos') }}"
+                aria-controls="nav-movements" aria-selected="false">Ir a productos</a>
+            <a class="nav-item nav-link" id="nav-movements-tab" data-toggle="" href="{{ url_for('page.movimientos') }}"
+                aria-controls="nav-movements" aria-selected="false">Ver movimientos</a>
+            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"
+                aria-controls="nav-home" aria-selected="true">Realizar</a>
+        </div>
+    </nav>
+    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-general-tab">
+        <div class="tab-content" id="nav-tabContent">
+            <div class="nav-content">
+                <h3 class="text-center">Realizar movimiento</h3>
+                <form method="POST" id="form-add-movement" class="form2col">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+
+                    <div class="form-left">
+                        <p><strong>ID del producto: </strong>{{ producto.id }}</p>
+                        <p><strong>Nombre: </strong>{{ producto.nombre }}</p>
+                        <p><strong>Descripción: </strong>{{ producto.descripcion }}</p>
+                        {% if producto.iva %}
+                        <p><strong>Precio(IVA): </strong>{{ producto.precio }} ({{ producto.precio*0.19 }})</p>
+                        {% else %}
+                        <p><strong>Precio(IVA): </strong>{{ producto.precio }}</p>
+                        {% endif %}
+                        <p><strong>Cantidad: </strong>{{ producto.cantidad }}</p>
+                        <p><strong>Categoria: </strong>{{ categoria.nombre }}</p>
+                        <p><strong>Proveedor: </strong>{{ proveedor.nombre }}</p>
+                    </div>
+
+                    <div class="form-right">
+                        <div class="form-group">
+                            {{ render_field(form.cantidad, class='form-control', placeholder='Cantidad del producto') }}
+                        </div>
+
+                        <div class="form-group">
+                            {{ render_field(form.tipo, class='form-control', placeholder='Tipo de movimiento') }}
+                        </div>
+
+                        <div class="form-group">
+                            {{ render_field(form.concepto, class='form-control', placeholder='Descripcion del movimiento') }}
+                        </div>
+
+                        <div class="form-group text-center form-btn">
+                            <input type="submit" id="btn-submit-movement" value="Realizar" class="btn btn-color">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

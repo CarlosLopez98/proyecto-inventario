@@ -20,6 +20,8 @@
             <a class="nav-item nav-link active" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab"
                 aria-controls="nav-profile" aria-selected="false">Añadir</a>
             {% endif %}
+            <a class="nav-item nav-link" id="nav-movements-tab" data-toggle="" href="{{ url_for('page.movimientos') }}"
+                aria-controls="nav-movements" aria-selected="false">Ver movimientos</a>
         </div>
     </nav>
     <div class="tab-content" id="nav-tabContent">
@@ -98,7 +100,7 @@
                                 <td>{{ producto.cantidad}}</td>
                                 <td>
                                     {% if producto.estado_id == 1 %}
-                                    <a href="{{ url_for('page.editar_producto', producto_id=producto.id) }}" data-toggle="tooltip" data-placement="top" title="Realizar un movimiento">
+                                    <a href="{{ url_for('page.add_movimiento', producto_id=producto.id) }}" data-toggle="tooltip" data-placement="top" title="Realizar un movimiento">
                                         <span class="icon-exchange"></span>
                                     </a>
                                     <a href="{{ url_for('page.editar_producto', producto_id=producto.id) }}" data-toggle="tooltip" data-placement="top" title="Editar producto">

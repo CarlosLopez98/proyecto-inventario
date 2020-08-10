@@ -343,6 +343,38 @@ class Producto(db.Model):
         return producto
 
     @classmethod
+    def update_cantidad(cls, id, cantidad, op):
+        producto = Producto.get_by_id(id)
+
+        if producto is None:
+            print("EL PRODUCTO NO EXISTE")
+            return False
+
+        op = int(op)
+        if op == 2:
+            # El movimiento es de salida
+            if cantidad <= producto.cantidad:
+                producto.cantidad -= cantidad
+            else:
+                print("LA CANTIDAD A RESTAR ES MAYOR A LA EXISTENTE")
+                return False 
+        elif op == 1:
+            # El movimiento es de entrada
+            if cantidad > 0:
+                producto.cantidad += cantidad
+            else:
+                print("LA CANTIDAD A AÑADIR ES MENOR A 0")
+                return False
+        else:
+            print(f"EL TIPO DE OPERACION {op} NO EXISTE")
+            return False
+        
+        db.session.add(producto)
+        db.session.commit()
+
+        return producto
+
+    @classmethod
     def get_by_id(cls, id):
         return Producto.query.filter_by(id=id).first()
 
@@ -422,9 +454,9 @@ class Movimiento(db.Model):
     producto_id = db.Column(db.Integer, db.ForeignKey('productos.id'))
 
     @classmethod
-    def create_element(cls, tipo, concepto, cantidad, usuario_id, producto_id):
-        movimiento = Movimiento(tipo=tipo, concepto=concepto, cantidad=cantidad,
-            usuario_id=usuario_id, producto_id=producto_id)
+    def create_element(cls, concepto, cantidad, tipo_id, usuario_id, producto_id):
+        movimiento = Movimiento(concepto=concepto, cantidad=cantidad, tipo_id=tipo_id,
+                                usuario_id=usuario_id, producto_id=producto_id)
 
         db.session.add(movimiento)
         db.session.commit()
@@ -432,15 +464,15 @@ class Movimiento(db.Model):
         return movimiento
 
     @classmethod
-    def update_element(cls, id, tipo, concepto, cantidad, usuario_id, producto_id):
+    def update_element(cls, id, concepto, cantidad, tipo_id, usuario_id, producto_id):
         movimiento = Movimiento.get_by_id(id)
 
         if movimiento is None:
             return False
 
-        movimiento.tipo = tipo
         movimiento.concepto = concepto
         movimiento.cantidad = cantidad
+        movimiento.tipo_id = tipo_id
         movimiento.usuario_id = usuario_id
         movimiento.producto_id = producto_id
 
@@ -460,3 +492,7 @@ class Movimiento(db.Model):
     @ classmethod
     def get_by_producto(cls, producto_id):
         return Movimiento.query.filter_by(producto_id = producto_id)
+
+    @classmethod
+    def get_all(cls):
+        return Movimiento.query.all()
