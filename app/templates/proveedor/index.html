@@ -35,7 +35,7 @@
                 <form method="POST" name="search-form">
                     <input type="hidden" name="accion" value="buscar">
                     <div class="input-group mb-3">
-                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                        <!--<input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />-->
                         <input type="search" class="form-control" name="buscar" placeholder="Buscar..." aria-label="Buscar..."
                             aria-describedby="button-addon2">
                         <div class="input-group-append">
@@ -95,7 +95,7 @@
                 <h3 class="text-center">Añadir proveedor</h3>
 
                 <form method='POST'>
-                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                    <!--<input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />-->
                     
                     <input type="hidden" name="accion" value="añadir">
 
