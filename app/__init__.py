@@ -37,6 +37,7 @@ def create_app(config):
     mail.init_app(app)
 
     app.register_blueprint(page)
+    csrf.exempt(page)
 
     with app.app_context():
         db.init_app(app)

@@ -5,6 +5,7 @@ class Config:
 
 class DevelopmentConfig(Config):
     DEBUG = True
+    ENV = 'development'
     SQLALCHEMY_DATABASE_URI = 'sqlite:///data/proyecto_inventarios.sqlite3'
     """
     SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://{username}:{password}@{hostname}/{database}'.format(
@@ -29,6 +30,7 @@ class ProductionConfig(Config):
     ENV = 'production'
     DEBUG = False
     SERVER_NAME = 'carloslopez98.pythonanywhere.com'
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     # Configuracion para el envio de correos
     MAIL_SERVER = 'smtp.googlemail.com'

@@ -23,7 +23,7 @@ class MyBaseForm(Form):
 
 # Formularios de usuarios
 
-class LoginForm(MyBaseForm):
+class LoginForm(Form):
     correo = EmailField('Correo', [
         validators.length(
             min=6, max=100, message='El campo debe tener entre 4 y 50 caracteres.'),
