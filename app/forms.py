@@ -1,6 +1,6 @@
 from wtforms import Form
 from wtforms import validators
-from wtforms import StringField, PasswordField, BooleanField, HiddenField, TextAreaField, DecimalField, SelectField, FloatField
+from wtforms import StringField, PasswordField, BooleanField, HiddenField, TextAreaField, DecimalField, SelectField, FloatField, IntegerField
 from wtforms.fields.html5 import EmailField
 
 from .models import Usuario, Categoria, Estado
@@ -173,3 +173,22 @@ class ProviderForm(Form):
         validators.length(min=4, max=15, message='Teléfono fuera de rango.'),
         validators.DataRequired(message='El teléfono es requerido.')
     ])
+
+
+class MovementsForm(Form):
+
+    cantidad = IntegerField('Cantidad', [
+        validators.NumberRange(min=1, message='Ingresa un número válido'),
+        validators.DataRequired(message='La cantidad es requerida')
+    ])
+    tipos = []
+    tipo = SelectField('Tipo', choices=tipos, validate_choice=False)
+    concepto = TextAreaField('Descripción', render_kw={'rows': 3})
+
+    @property
+    def types(self):
+        pass
+
+    @types.setter
+    def types(self, types):
+        self.tipo.choices = types

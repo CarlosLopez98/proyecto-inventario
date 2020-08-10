@@ -25,7 +25,7 @@ class DevelopmentConfig(Config):
     #MAIL_PASSWORD = config(MAIL_PASSWORD)
 
 class ProductionConfig(Config):
-    SQLALCHEMY_DATABASE_URI = ""
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///data/proyecto_inventarios.sqlite3'
 
     # Configuracion para el envio de correos
     MAIL_SERVER = 'smtp.googlemail.com'
@@ -43,6 +43,7 @@ class TestConfig(Config):
 
 
 config = {
+    'production': ProductionConfig,
     'development': DevelopmentConfig,
     'default': DevelopmentConfig,
     'test': TestConfig

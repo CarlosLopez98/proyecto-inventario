@@ -35,3 +35,16 @@ $(function(){
         });
     });
 });
+
+$(function(){
+    $('#btn-submit-movement').on('click', function(){
+        $('#form-add-movement').validate({
+            rules: {
+                cantidad: {required: true, digits: true, min: 1}
+            },
+            messages: {
+                cantidad: {required: 'El campo es requerido', digits: 'Este campo es de tipo numérico', min: 'La cantidad debe ser positiva'}
+            }
+        });
+    });
+});

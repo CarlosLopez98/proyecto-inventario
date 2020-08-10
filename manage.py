@@ -6,13 +6,13 @@ from flask_migrate import Migrate, MigrateCommand
 from config import config
 
 
-config_class = config['development']
+config_class = config['production']
 app = create_app(config_class)
 migrate = Migrate(app, db)
 
 
 def make_shell_context():
-    return dict(app=app, db=db, Usuario=Usuario, 
+    return dict(app=app, db=db, Usuario=Usuario,
         Categoria=Categoria, Estado=Estado, Producto=Producto, Tipo=Tipo,
         Movimiento=Movimiento, Proveedor=Proveedor)
 

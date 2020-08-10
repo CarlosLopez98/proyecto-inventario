@@ -2,9 +2,10 @@ from flask import Blueprint
 from flask import render_template, request, flash, redirect, url_for, abort
 from flask_login import login_user, logout_user, login_required, current_user
 from .forms import LoginForm, RegisterForm, RecoveryForm, UpdateUserForm
-from .forms import ProductForm, ProviderForm
+from .forms import ProductForm, ProviderForm, MovementsForm
 from .models import Usuario, Producto, Categoria, Estado, Proveedor, Movimiento, Tipo
 from . import login_manager
+from datetime import datetime
 
 page = Blueprint('page', __name__)
 
@@ -329,6 +330,10 @@ def editar_producto():
 
         producto = Producto.get_by_id(producto_id)
 
+        if producto is None:
+            flash('El producto al que intenta acceder no existe', 'warning')
+            return redirect(url_for('page.productos'))
+
         if producto.estado_id == 2:
             flash('Este producto se encuentra inactivo y no se puede editar', 'warning')
             return redirect(url_for('page.productos'))
@@ -416,6 +421,10 @@ def editar_proveedor():
 
         proveedor = Proveedor.get_by_id(proveedor_id)
 
+        if proveedor is None:
+            flash('El proveedor al que intenta acceder no existe', 'warning')
+            return redirect(url_for('page.proveedores'))
+
         if proveedor.estado == 'inactivo':
             flash('No puede editar el proveedor debido a que está inactivo', 'warning')
             return redirect(url_for('page.proveedores'))
@@ -472,3 +481,76 @@ def eliminar_proveedor():
             flash('El proveedor que intenta eliminar no existe.', 'warning')
     
     return redirect(url_for('page.proveedores'))
+
+
+# Vistas de movimientos
+@page.route('/movimientos')
+@login_required
+def movimientos():
+
+    movimientos = Movimiento.get_all()
+
+    movements = []
+    for movimiento in movimientos:
+        movement = {
+            'movimiento': movimiento,
+            'producto': Producto.get_by_id(movimiento.producto_id),
+            'usuario': Usuario.get_by_id(movimiento.usuario_id),
+            'tipo': Tipo.get_by_id(movimiento.tipo_id)
+        }
+        movements.append(movement)
+
+    return render_template('movimiento/index.html', title='Movimientos', prouctos_active='item-active',
+                            movimientos=movements)
+
+
+@page.route('/movimiento/agregar', methods=['GET', 'POST'])
+@login_required
+def add_movimiento():
+
+    if not request.args.get('producto_id'):
+        flash('Para realizar un movimiento necesitas seleccionar un producto', 'warning')
+        return redirect(url_for('page.productos'))
+
+    producto_id = request.args.get('producto_id')
+    producto = Producto.get_by_id(producto_id)
+
+    if producto is None:
+        flash('El producto al que intentas realizarle un movimiento no existe', 'warning')
+        return redirect(url_for('page.productos'))
+
+    if producto.estado_id == 2:
+        flash('El producto al que intentas realizarle un movimiento esta inactivo', 'warning')
+        return redirect(url_for('page.productos'))
+
+    form = MovementsForm(request.form)
+
+    if request.method == 'POST':
+        if form.validate():
+            cantidad = form.cantidad.data
+            tipo = form.tipo.data
+            concepto = form.concepto.data
+
+            producto = Producto.update_cantidad(id=producto_id, cantidad=cantidad, op=tipo)
+            movimiento = Movimiento.create_element(concepto=concepto, cantidad=cantidad, tipo_id=tipo,
+                                                    usuario_id=current_user.id, producto_id=producto_id)
+
+            if producto and movimiento:
+                flash('El movimiento se realizó con éxito', 'exito')
+                return redirect(url_for('page.movimientos'))
+            else:
+                flash('Hubo problemas para realizar el movimiento', 'danger')
+                return redirect(url_for('page.productos'))
+
+    categoria = Categoria.get_by_id(producto.categoria_id)
+    proveedor = Proveedor.get_by_id(producto.proveedor_id)
+
+    tipos = Tipo.get_all()
+    types = []
+    for tipo in tipos:
+        types.append((tipo.id, tipo.nombre))
+
+    form.types = types
+
+    return render_template('movimiento/agregar.html', title='Realizar movimiento', productos_active='item-active',
+                            form=form, producto=producto, categoria=categoria, proveedor=proveedor)
