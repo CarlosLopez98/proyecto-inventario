@@ -2,6 +2,7 @@ from wtforms import Form
 from wtforms import validators
 from wtforms import StringField, PasswordField, BooleanField, HiddenField, TextAreaField, DecimalField, SelectField, FloatField, IntegerField
 from wtforms.fields.html5 import EmailField
+from flask_wtf.csrf import CSRFProtect
 
 from .models import Usuario, Categoria, Estado
 
@@ -12,9 +13,17 @@ def lenght_honeypot(form, field):
             'Solo los humanos pueden completar este registro!')
 
 
+class MyBaseForm(Form):
+    class Meta:
+        csrf = True  # Enable CSRF
+        csrf_class = CSRFProtect  # Set the CSRF implementation
+        csrf_secret = 'Llavesecretaparaelcsrf'  # Some implementations need a secret key.
+        # Any other CSRF settings here.
+
+
 # Formularios de usuarios
 
-class LoginForm(Form):
+class LoginForm(MyBaseForm):
     correo = EmailField('Correo', [
         validators.length(
             min=6, max=100, message='El campo debe tener entre 4 y 50 caracteres.'),
