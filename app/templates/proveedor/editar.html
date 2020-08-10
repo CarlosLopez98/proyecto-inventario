@@ -9,7 +9,7 @@
     <div class="nav-content">
         <h3 class="text-center">Editar proveedor</h3>
         <form method="POST" id="" class="form2col">
-            <!--<input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />-->
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
 
             <div class="form-group">
                 {{ render_field(form.nombre, class='form-control', placeholder='Nombre del proveedor', value=proveedor.nombre) }}
