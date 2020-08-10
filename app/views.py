@@ -1,6 +1,7 @@
 from flask import Blueprint
 from flask import render_template, request, flash, redirect, url_for, abort
 from flask_login import login_user, logout_user, login_required, current_user
+from flask_wtf.csrf import CSRFError
 from .forms import LoginForm, RegisterForm, RecoveryForm, UpdateUserForm
 from .forms import ProductForm, ProviderForm, MovementsForm
 from .models import Usuario, Producto, Categoria, Estado, Proveedor, Movimiento, Tipo
@@ -17,6 +18,11 @@ def load_user(id):
 @page.app_errorhandler(404)
 def page_not_found(error):
     return render_template('errors/404.html'), 404
+
+
+@page.errorhandler(CSRFError)
+def handle_csrf_error(e):
+    return render_template('errors/csrf_error.html', reason=e.description), 400
 
 
 @page.route('/logout')
@@ -211,7 +217,7 @@ def perfil():
         if current_user.verify_password(old_contrasena):
             current_user.update_element(id=id, nombre=nombre, apellido=apellido, correo=correo, password=contrasena)
             flash('Perfil actualizado.', 'exito')
-            
+
             return redirect(url_for('page.perfil'))
         else:
             flash('Contraseña incorrecta.', 'warning')
@@ -227,7 +233,7 @@ def perfil():
         },
     ]
 
-    return render_template('usuario/perfil.html', title='Perfil', usuario_active='item-active', 
+    return render_template('usuario/perfil.html', title='Perfil', usuario_active='item-active',
         update_form=update_form, modals=modals)
 
 
@@ -294,13 +300,13 @@ def productos():
                 producto = Producto.create_element(nombre, descripcion, precio, iva, proveedor_id, categoria_id, estado_id)
                 flash('Producto guardado con éxito.', 'exito')
 
-                return render_template('producto/index.html', title='Productos', 
+                return render_template('producto/index.html', title='Productos',
             productos_active='item-active', productos=productos, form=form, panel='todos')
             else:
                 return render_template('producto/index.html', title='Productos',
                                     productos_active='item-active', productos=productos, form=form, panel='añadir')
 
-    return render_template('producto/index.html', title='Productos', productos_active='item-active', 
+    return render_template('producto/index.html', title='Productos', productos_active='item-active',
                             productos=productos, form=form, panel=panel, categorias=categorias, estados=estados)
 
 @page.route('/producto/eliminar', methods=['GET'])
@@ -372,7 +378,7 @@ def editar_producto():
     else:
         return redirect(url_for('page.productos'))
 
-    return render_template('producto/editar.html', title='Editar productos', 
+    return render_template('producto/editar.html', title='Editar productos',
                             productos_active='item-active', form=form, producto=producto,
                             proveedores=proveedores, categorias=categorias, estados=estados)
 
@@ -479,7 +485,7 @@ def eliminar_proveedor():
                 flash('El proveedor ha sido eliminado.', 'exito')
         else:
             flash('El proveedor que intenta eliminar no existe.', 'warning')
-    
+
     return redirect(url_for('page.proveedores'))
 
 

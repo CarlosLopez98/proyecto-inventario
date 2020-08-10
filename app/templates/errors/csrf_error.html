@@ -1,0 +1,14 @@
+{% extends 'layout.html' %}
+
+{% block main_content %}
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 contenedor-error" style="height: 500px;">
+        <h2>CSRF Token Error</h2>
+        <p>
+          {{ reason }}
+        </p>
+      </div>
+    </div>
+  </div>
+{% endblock %}
